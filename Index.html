@@ -1,0 +1,21 @@
+<div id="chat">
+  <div id="respostas"></div>
+  <input type="text" id="mensagem" placeholder="Fale com a IA...">
+  <button onclick="enviarMensagem()">Enviar</button>
+</div>
+
+<script>
+function enviarMensagem() {
+  const msg = document.getElementById('mensagem').value;
+  fetch('/ia', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ mensagem: msg })
+  })
+  .then(res => res.json())
+  .then(data => {
+    document.getElementById('respostas').innerHTML += `<p><b>Você:</b> ${msg}</p><p><b>IA:</b> ${data.resposta}</p>`;
+    document.getElementById('mensagem').value = '';
+  });
+}
+</script>
